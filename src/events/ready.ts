@@ -5,8 +5,7 @@ const event: eventTemplate = {
   name: 'ready',
   once: true,
   execute: (client: ExtendedClient) => {
-    return console.log(`Logged in as ${client.user?.tag}!`);
+    console.log(`Logged in as ${client.user?.tag}!`);
+    console.log(client.commands);
   },
 };
-
-export default event;

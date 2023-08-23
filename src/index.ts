@@ -3,7 +3,7 @@ import { ExtendedClient } from './types/extendedClient';
 import { Collection, Message, GatewayIntentBits } from 'discord.js';
 import fs from 'fs';
 import { eventTemplate } from './types/types';
-import { Console } from 'console';
+import { logging } from './utils/logging';
 
 const client = new ExtendedClient({
   intents: [
@@ -17,6 +17,7 @@ const client = new ExtendedClient({
 
 client.commands = new Collection();
 
+// get all event files and command files from their respective folders and load them
 const eventFiles = fs
   .readdirSync('./src/events')
   .filter((file: string) => file.endsWith('.ts'));
@@ -27,7 +28,13 @@ const commandFiles = fs
 
 for (const file of eventFiles) {
   const event: eventTemplate = require(`./events/${file}`).default;
-  console.log(`Loading event: ${event.name}` + (event.once ? ' (once)' : ''));
+  if (event == null) {
+    logging.warning(
+      `The command at ${file} is malformed and will not be loaded.`,
+    );
+    continue;
+  }
+  logging.info(`Loading event ${event.name}` + (event.once ? ' (once)' : ''));
   if (event.once) {
     client.once(event.name, (...args) => {
       event.execute(client, ...args);
@@ -41,7 +48,13 @@ for (const file of eventFiles) {
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`).default;
-  console.log(`Loading command: ${command.name}`);
+  if (command == null) {
+    logging.warning(
+      `The command at ${file} is malformed and will not be loaded.`,
+    );
+    continue;
+  }
+  logging.info(`Loading command ${command.name}`);
   client.commands.set(command.name, command);
 }
 
