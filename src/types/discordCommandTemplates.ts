@@ -4,17 +4,31 @@ import { ExtendedClient } from './extendedClient';
 export type eventTemplate = {
   name: string;
   once: boolean;
-  execute: (client: ExtendedClient, ...args: any) => void;
+  execute: eventExecute;
 };
 
 export type commandTemplate = {
   name: string;
   description: string;
-  execute: (client: ExtendedClient, message: Message, ...args: any) => void;
+  execute: commandExecute;
 };
 
 export type slashCommandTemplate = {
   data: SlashCommandBuilder;
   ownerOnly: boolean;
-  execute: (client: ExtendedClient, interaction: any, ...args: any) => void;
+  execute: slashCommandExecute;
 };
+
+export type eventExecute = (client: ExtendedClient, ...args: any) => void;
+
+export type commandExecute = (
+  client: ExtendedClient,
+  message: Message,
+  ...args: any
+) => void;
+
+export type slashCommandExecute = (
+  client: ExtendedClient,
+  interaction: any,
+  ...args: any
+) => void;

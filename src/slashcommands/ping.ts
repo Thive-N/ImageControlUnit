@@ -1,13 +1,19 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { slashCommandTemplate } from 'src/types/discordCommandTemplates';
+import {
+  slashCommandExecute,
+  slashCommandTemplate,
+} from 'src/types/discordCommandTemplates';
+import { titleEmbed } from '../utils/embeds';
+
+const execute: slashCommandExecute = async (client, interaction) => {
+  await interaction.reply(titleEmbed('Pong!', 200));
+};
 
 const slashCommand: slashCommandTemplate = {
   data: new SlashCommandBuilder()
     .setName('ping')
     .setDescription('Replies with Pong!'),
-  async execute(client, interaction) {
-    await interaction.reply('Pong!');
-  },
+  execute,
   ownerOnly: false,
 };
 
