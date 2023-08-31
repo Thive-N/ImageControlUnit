@@ -54,7 +54,7 @@ git clone [https://](https://github.com/Thive-N/ImageControlUnit.git)
 
 ```bash
 cd ImageControlUnit
-npm install
+yarn install
 ```
 
 ### configure

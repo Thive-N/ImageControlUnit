@@ -1,4 +1,4 @@
-import { commandTemplate } from 'src/types/types';
+import { commandTemplate } from 'src/types/discordCommandTemplates';
 
 const command: commandTemplate = {
   name: 'ping',

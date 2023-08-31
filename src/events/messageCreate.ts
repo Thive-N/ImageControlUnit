@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 import { ExtendedClient } from 'src/types/extendedClient';
-import { eventTemplate } from 'src/types/types';
+import { eventTemplate } from 'src/types/discordCommandTemplates';
+import { env } from '../utils/envManager';
 
 const event: eventTemplate = {
   name: 'messageCreate',
@@ -8,12 +9,16 @@ const event: eventTemplate = {
   execute: (client: ExtendedClient, message: Message) => {
     if (message === undefined) return;
     if (message.author.bot) return;
-    console.log(message.content);
-    // for (const command of client.commands.values()) {
-    //   if (message.content.startsWith(command.name)) {
-    //     command.execute(message);
-    //   }
-    // }
+
+    // manage the image channel
+    if (message.channel.id == env.IMAGE_CHANNEL_ID) {
+      // if the message has an attachment, react with 👍 and 👎
+      if (message.attachments.size > 0) {
+        message.react('👍');
+        message.react('👎');
+      } else message.delete();
+      return;
+    }
   },
 };
 

@@ -16,8 +16,9 @@ if (!fs.existsSync(FILEPATH)) {
 dotenv.config({ path: FILEPATH });
 
 export const env = {
-  DISCORD_TOKEN: process.env.DISCORD_TOKEN,
-  OWNER_ID: process.env.OWNER_ID,
+  DISCORD_TOKEN: process.env.DISCORD_TOKEN!,
+  OWNER_ID: process.env.OWNER_ID!,
 
-  IMAGE_CHANNEL_ID: process.env.IMAGE_CHANNEL_ID,
+  IMAGE_CHANNEL_ID: process.env.IMAGE_CHANNEL_ID!,
+  GUILD_ID: process.env.GUILD_ID!,
 };
