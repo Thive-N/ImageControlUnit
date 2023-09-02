@@ -26,12 +26,8 @@ const eventFiles = fs
   .readdirSync('./src/events')
   .filter((file: string) => file.endsWith('.ts'));
 
-const commandFiles = fs
-  .readdirSync('./src/commands')
-  .filter((file: String) => file.endsWith('.ts'));
-
 const slashCommandFiles = fs
-  .readdirSync('./src/slashcommands')
+  .readdirSync('./src/commands')
   .filter((file: String) => file.endsWith('.ts'));
 
 for (const file of eventFiles) {
@@ -54,21 +50,8 @@ for (const file of eventFiles) {
   }
 }
 
-for (const file of commandFiles) {
-  const command: commandTemplate = require(`./commands/${file}`).default;
-  if (command == null) {
-    logging.warning(
-      `The command at ${file} is malformed and will not be loaded.`,
-    );
-    continue;
-  }
-  logging.info(`Loading command ${command.name}`);
-  client.commands.set(command.name, command);
-}
-
 for (const file of slashCommandFiles) {
-  const command: slashCommandTemplate =
-    require(`./slashcommands/${file}`).default;
+  const command: slashCommandTemplate = require(`./commands/${file}`).default;
   if (command == null) {
     logging.warning(
       `The slash command at ${file} is malformed and will not be loaded.`,
